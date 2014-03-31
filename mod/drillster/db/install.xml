@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/drillster/db" VERSION="20120412" COMMENT="XMLDB file for Moodle mod/drillster"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+    <TABLES>
+        <TABLE NAME="drillster" COMMENT="drillster table retrofitted from MySQL" NEXT="drillster_group">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="course"/>
+                <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="name"/>
+                <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" DEFAULT="" SEQUENCE="false" PREVIOUS="course" NEXT="intro"/>
+                <FIELD NAME="intro" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="name" NEXT="introformat"/>
+                <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="intro" NEXT="timemodified"/>
+                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="introformat" NEXT="drill_id"/>
+                <FIELD NAME="drill_id" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="" SEQUENCE="false" PREVIOUS="timemodified"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="id"/>
+                <KEY NAME="id" TYPE="unique" FIELDS="id" PREVIOUS="primary"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="drillster_group" COMMENT="drillster_group table retrofitted from MySQL" PREVIOUS="drillster" NEXT="drillster_link">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="name"/>
+                <FIELD NAME="name" TYPE="char" LENGTH="200" NOTNULL="true" DEFAULT="" SEQUENCE="false" PREVIOUS="id" NEXT="module_id"/>
+                <FIELD NAME="module_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="name" NEXT="code"/>
+                <FIELD NAME="code" TYPE="char" LENGTH="200" NOTNULL="true" SEQUENCE="false" PREVIOUS="module_id" NEXT="description"/>
+                <FIELD NAME="description" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" PREVIOUS="code"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="id"/>
+                <KEY NAME="id" TYPE="unique" FIELDS="id" PREVIOUS="primary"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="drillster_link" COMMENT="drillster_link table retrofitted from MySQL" PREVIOUS="drillster_group" NEXT="drillster_user">
+            <FIELDS>
+
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="drillster_user_id"/>
+                <FIELD NAME="drillster_user_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="module_id"/>
+                <FIELD NAME="module_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="drillster_user_id" NEXT="drillster_group_id"/>
+                <FIELD NAME="drillster_group_id" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="module_id"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="id"/>
+                <KEY NAME="id" TYPE="unique" FIELDS="id" PREVIOUS="primary"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="drillster_user" COMMENT="drillster_user table retrofitted from MySQL" PREVIOUS="drillster_link">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="moodle_user_id"/>
+                <FIELD NAME="moodle_user_id" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="id" NEXT="drillster_id"/>
+                <FIELD NAME="drillster_id" TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT="" SEQUENCE="false" PREVIOUS="moodle_user_id" NEXT="username"/>
+                <FIELD NAME="username" TYPE="char" LENGTH="200" NOTNULL="true" DEFAULT="" SEQUENCE="false" PREVIOUS="drillster_id" NEXT="email"/>
+                <FIELD NAME="email" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" PREVIOUS="username"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="id"/>
+                <KEY NAME="id" TYPE="unique" FIELDS="id" PREVIOUS="primary"/>
+            </KEYS>
+        </TABLE>
+    </TABLES>
+</XMLDB>
